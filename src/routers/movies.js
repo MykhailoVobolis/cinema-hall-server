@@ -13,20 +13,16 @@ import { isValidId } from '../middlewares/isValidId.js';
 
 const router = Router();
 
-router.get('/movies', ctrlWrapper(getMoviesController));
+router.get('/', ctrlWrapper(getMoviesController));
 
-router.get('/movies/:movieId', isValidId, ctrlWrapper(getMovieByIdController));
+router.get('/:movieId', isValidId, ctrlWrapper(getMovieByIdController));
 
 router.post(
-  '/movies',
+  '',
   validateBody(createMovieSchema),
   ctrlWrapper(createMovieController),
 );
 
-router.delete(
-  '/movies/:movieId',
-  isValidId,
-  ctrlWrapper(deleteMovieController),
-);
+router.delete('/:movieId', isValidId, ctrlWrapper(deleteMovieController));
 
 export default router;

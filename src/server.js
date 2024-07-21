@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import moviesRouter from './routers/movies.js';
+import router from './routers/index.js';
 
 import { env } from './utils/env.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
@@ -24,7 +24,7 @@ export const startServer = () => {
 
   app.use(cors());
 
-  app.use(moviesRouter);
+  app.use(router);
 
   app.use('*', notFoundHandler);
 
