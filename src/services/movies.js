@@ -1,8 +1,23 @@
 import { MoviesCollection } from '../db/models/movie.js';
+import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
-export const getAllMovies = async () => {
-  const movies = await MoviesCollection.find();
-  return movies;
+export const getAllMovies = async ({ page, perPage }) => {
+  const limit = perPage;
+  const skip = (page - 1) * perPage;
+
+  const moviesQuery = MoviesCollection.find();
+  const moviesCount = await MoviesCollection.find()
+    .merge(moviesQuery)
+    .countDocuments();
+
+  const movies = await moviesQuery.skip(skip).limit(limit).exec();
+
+  const paginationData = calculatePaginationData(moviesCount, perPage, page);
+
+  return {
+    data: movies,
+    ...paginationData,
+  };
 };
 
 export const getMovieById = async (movieId) => {

@@ -6,9 +6,14 @@ import {
   getAllMovies,
   getMovieById,
 } from '../services/movies.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
 export const getMoviesController = async (req, res) => {
-  const movies = await getAllMovies();
+  const { page, perPage } = parsePaginationParams(req.query);
+  const movies = await getAllMovies({
+    page,
+    perPage,
+  });
 
   res.status(200).json({
     status: 200,
