@@ -1,5 +1,5 @@
 import { model, Schema } from 'mongoose';
-import { mongooseSaveError, setUpdateSettings } from './ hooks.js';
+import { mongooseSaveError, setUpdateSettings } from './hooks.js';
 
 const moviesSchema = new Schema(
   {
