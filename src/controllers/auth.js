@@ -1,10 +1,12 @@
 import {
+  loginOrSignupWithGoogle,
   loginUser,
   logoutUser,
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
 import { REFRESH_TOKEN_LIFETIME } from '../constants/index.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 
 // Контролер реєстрації користувача
 export const registerUserController = async (req, res) => {
@@ -80,6 +82,32 @@ export const refreshUserSessionController = async (req, res) => {
   res.json({
     status: 200,
     message: 'Successfully refreshed a session!',
+    data: {
+      accessToken: session.accessToken,
+    },
+  });
+};
+
+// Контролер створення посилання для аутентифікації користувача за допомогою його Google аккаунту
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
+  });
+};
+
+// Контроллер Google аутентифікації
+export const loginWithGoogleController = async (req, res) => {
+  const session = await loginOrSignupWithGoogle(req.body.code);
+  setupSession(res, session);
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in via Google OAuth!',
     data: {
       accessToken: session.accessToken,
     },
