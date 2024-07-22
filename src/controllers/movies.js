@@ -9,10 +9,14 @@ import {
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 
 export const getMoviesController = async (req, res) => {
+  const { _id: userId } = req.user;
   const { page, perPage } = parsePaginationParams(req.query);
+  const filter = { userId };
+
   const movies = await getAllMovies({
     page,
     perPage,
+    filter,
   });
 
   res.status(200).json({
@@ -23,8 +27,9 @@ export const getMoviesController = async (req, res) => {
 };
 
 export const getMovieByIdController = async (req, res, next) => {
+  const { _id: userId } = req.user;
   const { movieId } = req.params;
-  const movie = await getMovieById(movieId);
+  const movie = await getMovieById({ _id: movieId, userId });
 
   // Відповідь, якщо фільм не знайдено
   if (!movie) {
@@ -40,7 +45,8 @@ export const getMovieByIdController = async (req, res, next) => {
 };
 
 export const createMovieController = async (req, res) => {
-  const movie = await createMovie(req.body);
+  const { _id: userId } = req.user;
+  const movie = await createMovie({ ...req.body, userId });
 
   res.status(201).json({
     status: 201,
