@@ -5,31 +5,22 @@ import {
   refreshUsersSession,
   registerUser,
 } from '../services/auth.js';
-import { REFRESH_TOKEN_LIFETIME } from '../constants/index.js';
 import { generateAuthUrl } from '../utils/googleOAuth2.js';
+import { setupSession } from '../utils/setupSession.js';
 
 // Контролер реєстрації користувача
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
+
+  // Login користувача при реєстрації
+  const session = await loginUser(req.body);
+  setupSession(res, session);
 
   // Видалення паролю з відповіді на роуті POST /auth/register
   const data = {
     name: user.name,
     email: user.email,
   };
-
-  // Login користувача при реєістрації
-  const session = await loginUser(req.body);
-  setupSession(res, session);
-
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
 
   res.status(201).json({
     status: 201,
@@ -42,14 +33,7 @@ export const registerUserController = async (req, res) => {
 export const loginUserController = async (req, res) => {
   const session = await loginUser(req.body);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
+  setupSession(res, session);
 
   res.json({
     status: 200,
@@ -73,17 +57,6 @@ export const logoutUserController = async (req, res) => {
 };
 
 // Контроллер refresh користувача
-const setupSession = (res, session) => {
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
-};
-
 export const refreshUserSessionController = async (req, res) => {
   const session = await refreshUsersSession({
     sessionId: req.cookies.sessionId,

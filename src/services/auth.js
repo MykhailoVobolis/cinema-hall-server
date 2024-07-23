@@ -61,6 +61,10 @@ export const loginUser = async (payload) => {
 
 // Сервіс-функція logout користувача
 export const logoutUser = async (sessionId) => {
+  if (!sessionId) {
+    throw createHttpError(401, 'Session not found');
+  }
+
   await SessionsCollection.deleteOne({ _id: sessionId });
 };
 
