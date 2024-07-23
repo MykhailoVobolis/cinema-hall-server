@@ -18,10 +18,23 @@ export const registerUserController = async (req, res) => {
     email: user.email,
   };
 
+  // Login користувача при реєістрації
+  const session = await loginUser(req.body);
+  setupSession(res, session);
+
+  res.cookie('refreshToken', session.refreshToken, {
+    httpOnly: true,
+    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
+  });
+  res.cookie('sessionId', session._id, {
+    httpOnly: true,
+    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
+  });
+
   res.status(201).json({
     status: 201,
     message: 'Successfully registered a user!',
-    data,
+    data: { data, accessToken: session.accessToken },
   });
 };
 
