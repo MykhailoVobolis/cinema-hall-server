@@ -16,8 +16,9 @@ const isProduction = process.env.NODE_ENV === 'production';
 // Обробка першого чи дркгого redirect URL для локальної розробки чи продакшену
 const curentRedirectUrl =
   isProduction === true
-    ? oauthConfig.web.redirect_uris[1]
-    : oauthConfig.web.redirect_uris[0];
+    ? // При продакшене поменять местами 0 и 1 !!!!!
+      oauthConfig.web.redirect_uris[0]
+    : oauthConfig.web.redirect_uris[1];
 
 const googleOAuthClient = new OAuth2Client({
   clientId: env(ENV_VARS.GOOGLE_AUTH_CLIENT_ID),
