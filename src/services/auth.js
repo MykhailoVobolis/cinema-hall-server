@@ -51,6 +51,8 @@ export const loginUser = async (payload) => {
 
   // Створення нової сесії в базі даних
   return await SessionsCollection.create({
+    name: user.name,
+    email: user.email,
     userId: user._id,
     accessToken,
     refreshToken,
