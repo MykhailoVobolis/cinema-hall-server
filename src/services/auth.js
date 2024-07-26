@@ -125,6 +125,9 @@ export const loginOrSignupWithGoogle = async (code) => {
     });
   }
 
+  // Видалення попередньої сесії користувача, якщо така існує, з колекції сесій.
+  await SessionsCollection.deleteOne({ userId: user._id });
+
   const newSession = createSession();
 
   return await SessionsCollection.create({
