@@ -57,8 +57,16 @@ export const logoutUserController = async (req, res) => {
     throw createHttpError(400, 'Cookie sessionId not received');
   }
 
-  res.clearCookie('sessionId');
-  res.clearCookie('refreshToken');
+  res.clearCookie('sessionId', {
+    httpOnly: true,
+    sameSite: 'None', // Обов'язково для кросс-доменних запитів
+    secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+  });
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    sameSite: 'None', // Обов'язково для кросс-доменних запитів
+    secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+  });
 
   res.status(204).send();
 };
