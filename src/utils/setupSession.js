@@ -7,13 +7,15 @@ export const setupSession = (res, session) => {
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     sameSite: 'None', // Обов'язково для кросс-доменних запитів
-    secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+    // secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+    secure: true,
     expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
   });
   res.cookie('sessionId', session._id, {
     httpOnly: true,
     sameSite: 'None', // Обов'язково для кросс-доменних запитів
-    secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+    // secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+    secure: true,
     expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
   });
 };
