@@ -23,7 +23,19 @@ export const startServer = () => {
     }),
   );
 
-  app.use(cors());
+  // Налаштування CORS для дозволу передачи cookies між доменами
+  // (Щоб вирішити проблему з CORS, необхідно переконатися, що заголовок Access-Control-Allow-Origin не встановлено значення *, коли використовуються облікові дані (cookies). Натомість вкажіть точне джерело (origin).)
+  const corsOptions = {
+    origin: [
+      'http://localhost:5173',
+      'https://cinema-hall-app.onrender.com',
+      'https://top-cinema-hall.vercel.app',
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Для передачі cookies та авторизаційних заголовків
+  };
+
+  app.use(cors(corsOptions));
 
   app.use(cookieParser());
 
