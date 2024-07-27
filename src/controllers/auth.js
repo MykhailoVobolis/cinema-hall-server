@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import {
   loginOrSignupWithGoogle,
   loginUser,
@@ -52,6 +53,8 @@ export const loginUserController = async (req, res) => {
 export const logoutUserController = async (req, res) => {
   if (req.cookies.sessionId) {
     await logoutUser(req.cookies.sessionId);
+  } else {
+    throw createHttpError(400, 'Cookie sessionId not received');
   }
 
   res.clearCookie('sessionId');
