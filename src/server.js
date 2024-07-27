@@ -27,7 +27,7 @@ export const startServer = () => {
   // (Щоб вирішити проблему з CORS, необхідно переконатися, що заголовок Access-Control-Allow-Origin не встановлено значення *, коли використовуються облікові дані (cookies). Натомість вкажіть точне джерело (origin).)
   const corsOptions = {
     origin: ['http://localhost:5173', 'https://top-cinema-hall.vercel.app'], // Вказуємо всі дозволені URL фронтенду
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Для передачі cookies та авторизаційних заголовків
   };
 
