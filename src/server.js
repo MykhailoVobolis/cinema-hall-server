@@ -26,11 +26,7 @@ export const startServer = () => {
   // Налаштування CORS для дозволу передачи cookies між доменами
   // (Щоб вирішити проблему з CORS, необхідно переконатися, що заголовок Access-Control-Allow-Origin не встановлено значення *, коли використовуються облікові дані (cookies). Натомість вкажіть точне джерело (origin).)
   const corsOptions = {
-    origin: [
-      'http://localhost:5173',
-      'https://top-cinema-hall.vercel.app',
-      'https://cinema-hall-app.onrender.com',
-    ],
+    origin: ['http://localhost:5173', 'https://top-cinema-hall.vercel.app'], // Вказуємо всі дозволені URL фронтенду
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Для передачі cookies та авторизаційних заголовків
   };
