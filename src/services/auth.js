@@ -105,6 +105,8 @@ export const refreshUsersSession = async ({ sessionId, refreshToken }) => {
   await SessionsCollection.deleteOne({ _id: sessionId, refreshToken });
 
   return await SessionsCollection.create({
+    name: session.name,
+    email: session.email,
     userId: session.userId,
     ...newSession,
   });
