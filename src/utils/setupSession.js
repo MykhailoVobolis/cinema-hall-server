@@ -9,7 +9,13 @@ const isSafari = (userAgent) => {
 
 // Функція встановлює два сесіонні куки для відповіді які доступні тільки через HTTP-запити і не можуть бути доступними через JavaScript на стороні клієнта
 export const setupSession = (req, res, session) => {
-  const userAgent = req.headers['user-agent'];
+  const userAgent = req.headers['user-agent'] || '';
+
+  // Додаткова перевірка на існування заголовка
+  if (!userAgent) {
+    console.error('User-Agent header is missing');
+  }
+
   const isSafariBrowser = isSafari(userAgent);
 
   res.cookie('refreshToken', session.refreshToken, {
