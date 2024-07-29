@@ -23,20 +23,27 @@ const isSafari = (userAgent) => {
 };
 
 export const setupSession = (req, res, session) => {
-  const userAgent = req.headers['user-agent'] || '';
-  const isSafariBrowser = isSafari(userAgent);
-  console.log(isSafariBrowser);
+  try {
+    const userAgent =
+      req.headers['user-agent'] || req.headers['User-Agent'] || '';
+    const isSafariBrowser = isSafari(userAgent);
 
-  res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
-    sameSite: isSafariBrowser ? 'Strict' : 'None', // Для Safari встановлюємо 'Strict'
-    secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
-  res.cookie('sessionId', session._id, {
-    httpOnly: true,
-    sameSite: isSafariBrowser ? 'Strict' : 'None', // Для Safari встановлюємо 'Strict'
-    secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
-    expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
-  });
+    res.cookie('refreshToken', session.refreshToken, {
+      httpOnly: true,
+      sameSite: isSafariBrowser ? 'Strict' : 'None', // Для Safari встановлюємо 'Strict'
+      secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+      expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
+    });
+    res.cookie('sessionId', session._id, {
+      httpOnly: true,
+      sameSite: isSafariBrowser ? 'Strict' : 'None', // Для Safari встановлюємо 'Strict'
+      secure: process.env.NODE_ENV === 'production', // Встановлюємо true тільки в продакшн
+      expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
+    });
+
+    res.status(200).send('Cookies set successfully');
+  } catch (error) {
+    console.error('Error setting cookies:', error);
+    res.status(500).send('Internal Server Error');
+  }
 };
