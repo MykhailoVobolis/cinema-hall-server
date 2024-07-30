@@ -125,6 +125,9 @@ export const loginOrSignupWithGoogle = async (code) => {
       name: getFullNameFromGoogleTokenPayload(payload),
       password,
     });
+  } else {
+    // Як що юзер з таким email вже зареєстрований у системі
+    throw createHttpError(409, 'Email in use');
   }
 
   // Видалення попередньої сесії користувача, якщо така існує, з колекції сесій.
