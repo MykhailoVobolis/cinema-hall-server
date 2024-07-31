@@ -19,8 +19,8 @@ import { REFRESH_TOKEN_LIFETIME } from '../constants/index.js';
 // };
 
 // Альтернатива
-export const setupSession = (req, res, session) => {
-  const userAgent = req.headers['user-agent'];
+export const setupSession = (res, session) => {
+  const userAgent = res.req.headers['user-agent'];
 
   const isSafari =
     userAgent.includes('Safari') &&
@@ -37,10 +37,4 @@ export const setupSession = (req, res, session) => {
 
   res.cookie('refreshToken', session.refreshToken, cookieOptions);
   res.cookie('sessionId', session._id, cookieOptions);
-
-  console.log('Cookies set:', {
-    refreshToken: session.refreshToken,
-    sessionId: session._id,
-    options: cookieOptions,
-  });
 };
