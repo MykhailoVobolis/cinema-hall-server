@@ -37,7 +37,7 @@ export const createMovie = async (payload) => {
 
 export const deleteMovie = async (movieId) => {
   const movie = await MoviesCollection.findOneAndDelete({
-    _id: movieId,
+    id: movieId,
   });
 
   return movie;
