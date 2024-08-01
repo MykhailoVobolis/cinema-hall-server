@@ -29,7 +29,7 @@ export const getMoviesController = async (req, res) => {
 export const getMovieByIdController = async (req, res, next) => {
   const { _id: userId } = req.user;
   const { movieId } = req.params;
-  const movie = await getMovieById({ _id: movieId, userId });
+  const movie = await getMovieById({ id: movieId, userId });
 
   // Відповідь, якщо фільм не знайдено
   if (!movie) {

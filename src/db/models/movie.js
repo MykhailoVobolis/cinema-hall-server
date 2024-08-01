@@ -4,7 +4,7 @@ import { mongooseSaveError, setUpdateSettings } from './hooks.js';
 const moviesSchema = new Schema(
   {
     id: {
-      type: Number,
+      type: String,
       required: true,
     },
     poster_path: {

@@ -18,7 +18,7 @@ router.use(authenticate);
 
 router.get('/', ctrlWrapper(getMoviesController));
 
-router.get('/:movieId', isValidId, ctrlWrapper(getMovieByIdController));
+router.get('/:movieId', ctrlWrapper(getMovieByIdController));
 
 router.post(
   '',
@@ -26,6 +26,6 @@ router.post(
   ctrlWrapper(createMovieController),
 );
 
-router.delete('/:movieId', isValidId, ctrlWrapper(deleteMovieController));
+router.delete('/:movieId', ctrlWrapper(deleteMovieController));
 
 export default router;

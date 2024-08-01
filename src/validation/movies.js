@@ -1,7 +1,7 @@
 import Joi from 'joi';
 
 export const createMovieSchema = Joi.object({
-  id: Joi.number().integer().required(),
+  id: Joi.string().required(),
   poster_path: Joi.string().required(),
   title: Joi.string().min(3).required(),
   userId: Joi.string(),
