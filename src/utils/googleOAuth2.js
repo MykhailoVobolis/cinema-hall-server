@@ -17,8 +17,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 const curentRedirectUrl =
   isProduction === true
     ? // При продакшене поменять местами 0 и 1 !!!!!
-      oauthConfig.web.redirect_uris[0]
-    : oauthConfig.web.redirect_uris[1];
+      // Порядок при розміщенні фронтенду на http://localhost:5173 - 0, 1
+      // Порядок при розміщенні фронтенду на https://top-cinema-hall.vercel.app 1, 0
+      oauthConfig.web.redirect_uris[1]
+    : oauthConfig.web.redirect_uris[0];
 
 const googleOAuthClient = new OAuth2Client({
   clientId: env(ENV_VARS.GOOGLE_AUTH_CLIENT_ID),
