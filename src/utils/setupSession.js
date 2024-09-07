@@ -20,17 +20,18 @@ import { REFRESH_TOKEN_LIFETIME } from '../constants/index.js';
 
 // Альтернатива
 export const setupSession = (res, session) => {
-  const userAgent = res.req.headers['user-agent'];
+  // const userAgent = res.req.headers['user-agent'];
 
-  const isSafari =
-    userAgent.includes('Safari') &&
-    !userAgent.includes('Chrome') &&
-    !userAgent.includes('Chromium');
+  // const isSafari =
+  //   userAgent.includes('Safari') &&
+  //   !userAgent.includes('Chrome') &&
+  //   !userAgent.includes('Chromium');
 
   // Определение параметров sameSite и secure в зависимости от браузера
   const cookieOptions = {
     httpOnly: true,
-    sameSite: isSafari ? 'Lax' : 'None', // Для Safari используем 'Lax', для остальных - 'None'
+    // sameSite: isSafari ? 'Lax' : 'None', // Для Safari используем 'Lax', для остальных - 'None'
+    sameSite: 'None',
     secure: process.env.NODE_ENV === 'production', // Устанавливаем true только в продакшн
     expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
   };
