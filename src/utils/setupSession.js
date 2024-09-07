@@ -31,8 +31,8 @@ export const setupSession = (res, session) => {
   const cookieOptions = {
     httpOnly: true,
     // sameSite: isSafari ? 'Lax' : 'None', // Для Safari используем 'Lax', для остальных - 'None'
-    sameSite: 'None',
-    secure: process.env.NODE_ENV === 'production', // Устанавливаем true только в продакшн
+    sameSite: 'Lax',
+    // secure: process.env.NODE_ENV === 'production', // Устанавливаем true только в продакшн.
     expires: new Date(Date.now() + REFRESH_TOKEN_LIFETIME),
   };
 
