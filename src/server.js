@@ -35,6 +35,14 @@ export const startServer = () => {
 
   app.use(cookieParser());
 
+  // Додаємо ендпоінт для моніторингу. Тільки для "пробудження серверу"
+  app.get('/ping', (req, res) => {
+    res.status(200).json({
+      status: 200,
+      message: 'Server is alive!',
+    });
+  });
+
   app.use(router);
 
   app.use('*', notFoundHandler);
